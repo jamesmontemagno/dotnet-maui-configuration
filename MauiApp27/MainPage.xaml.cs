@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace MauiApp27;
 
@@ -6,12 +7,12 @@ public partial class MainPage : ContentPage
 {
 	int count = 0;
 	IConfiguration configuration;
-	public MainPage(IConfiguration config)
+	public MainPage(IConfiguration config, ILogger<MainPage> logger)
 	{
 		InitializeComponent();
 
 		configuration = config;
-
+		logger.LogInformation("Test");
 		//configuration = MauiProgram.Services.GetService<IConfiguration>();
 
 	}
@@ -22,7 +23,6 @@ public partial class MainPage : ContentPage
 		CounterLabel.Text = $"Current count: {count}";
 
 		SemanticScreenReader.Announce(CounterLabel.Text);
-
 
 		var settings = configuration.GetRequiredSection("Settings").Get<Settings>();
 		await DisplayAlert("Config", $"{nameof(settings.KeyOne)}: {settings.KeyOne}" +
